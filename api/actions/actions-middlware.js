@@ -28,7 +28,7 @@ const validateAction = (req, res, next) => {
   if (!notes || !description || !project_id) {
     next({
       status: 400,
-      message: "missing required fields",
+      message: "Missing required fields",
     });
   } else {
     next();
