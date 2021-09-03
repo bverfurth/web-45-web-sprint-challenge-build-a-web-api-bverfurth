@@ -7,8 +7,6 @@ const {
 const Actions = require("./actions-model");
 const router = express.Router();
 
-// - [ ] `[GET] /api/actions`
-//   - Returns an array of actions (or an empty array) as the body of the response.
 router.get("/", logger, async (req, res, next) => {
   try {
     const actions = await Actions.get();
@@ -19,9 +17,6 @@ router.get("/", logger, async (req, res, next) => {
   }
 });
 
-// - [ ] `[GET] /api/actions/:id`
-//   - Returns an action with the given `id` as the body of the response.
-//   - If there is no action with the given `id` it responds with a status code 404.
 router.get("/:id", (req, res) => {
   Actions.get(req.params.id)
     .then((action) => {
@@ -38,10 +33,6 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// - [ ] `[POST] /api/actions`
-//   - Returns the newly created action as the body of the response.
-//   - If the request body is missing any of the required fields it responds with a status code 400.
-//   - When adding an action make sure the `project_id` provided belongs to an existing `project`.
 router.post("/", (req, res) => {
   if (!req.body.description || !req.body.notes || !req.body.project_id) {
     res.status(400).json({
@@ -57,10 +48,7 @@ router.post("/", (req, res) => {
       });
   }
 });
-// - [ ] `[PUT] /api/actions/:id`
-//   - Returns the updated action as the body of the response.
-//   - If there is no action with the given `id` it responds with a status code 404.
-//   - If the request body is missing any of the required fields it responds with a status code 400.
+
 router.put(
   "/:id",
   logger,
@@ -85,9 +73,6 @@ router.put(
   }
 );
 
-// - [ ] `[DELETE] /api/actions/:id`
-//   - Returns no response body.
-//   - If there is no action with the given `id` it responds with a status code 404.
 router.delete("/:id", logger, validateActionId, async (req, res, next) => {
   try {
     await Actions.remove(req.params.id);
@@ -99,7 +84,6 @@ router.delete("/:id", logger, validateActionId, async (req, res, next) => {
   }
 });
 
-// eslint-disable-next-line no-unused-vars
 router.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     custom: "Bad things happened",
